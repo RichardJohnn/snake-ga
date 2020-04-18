@@ -28,17 +28,17 @@ class DQNAgent(object):
 
     def network(self):
         model = Sequential()
-        model.add(Dense(output_dim=self.first_layer, activation='relu', input_dim=11))
-        model.add(Dense(output_dim=self.second_layer, activation='relu'))
-        model.add(Dense(output_dim=self.third_layer, activation='relu'))
-        model.add(Dense(output_dim=3, activation='softmax'))
+        model.add(Dense(activation='relu', input_dim=11, units=self.first_layer))
+        model.add(Dense(activation='relu', units=self.second_layer))
+        model.add(Dense(activation='relu', units=self.third_layer))
+        model.add(Dense(activation='softmax', units=3))
         opt = Adam(self.learning_rate)
         model.compile(loss='mse', optimizer=opt)
 
         if self.load_weights:
             model.load_weights(self.weights)
         return model
-    
+
     def get_state(self, game, player, food):
         state = [
             (player.x_change == 20 and player.y_change == 0 and ((list(map(add, player.position[-1], [20, 0])) in player.position) or
